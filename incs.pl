@@ -1,0 +1,1 @@
+incs(X, X1) :- X is X1 +1, write(X).
