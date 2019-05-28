@@ -9,14 +9,14 @@ is_prime(P) :- integer(P), P > 3, P mod 2 =\= 0, \+ has_factor(P,3).
 next_prime(P,P1) :- P1 is P + 2, is_prime(P1), !.
 next_prime(P,P1) :- P2 is P + 2, next_prime(P2,P1).
 
-
-
 goldbach(4,[2,2]).
+goldbach(6, [3, 3]).
 
 goldbach(N,L) :-
   N mod 2 =:= 0,
   N > 4,
   goldbach(N,L,3).
+
 goldbach(N,[P,Q],P) :-
   Q is N - P,
   is_prime(Q), P < Q ,
@@ -25,14 +25,14 @@ goldbach(N,[P,Q],P) :-
   goldbach(N,L,P1).
 
 
-goldbash(N,L,P) :- P > N/2, !.
+goldbash(N,L,P) :- P > N/2, nl, !.
 goldbach(N,L,P) :- 
   P < N,
   next_prime(P,P1),
   goldbach(N,L,P1).
 
 q1 :- write("Input:"),
-            read(X), write(X), nl, 
+            read(X), write("Output "), nl, 
             goldbach(X, [A, B]).
             % -> write("Output:"), write(A), write(" "), write(B); 
             %nl.

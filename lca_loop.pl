@@ -1,4 +1,4 @@
-loop_fun :-
+q2 :-
    
     read(X2),
     minus(X2, X),
@@ -10,7 +10,7 @@ minus(Y, Y1) :- Y1 is Y - 1.
 incs(X, X1) :- 
     X1 is X - 1, 
     %write(X1), 
-    write("Input: "), read(A), read(B), 
+    write("Input node"), read(A), write("Input node"), read(B), nl,
     add_rule(A, parent, B).
 
 loop(X) :- end(X), !.
@@ -32,14 +32,14 @@ add_rule(X, Predicate, Y) :-
     assertz(Fact).
 
 loop_fun2 :-
-    read(X),
+    write("Find: "), read(X),
     loop2(X).
 
 incs2(X, X1) :- 
     X1 is X - 1, 
     %write(X1), 
-    write("Input: "), read(A), read(B), 
-    lca(A, B).
+    write("Input: "), read(A), read(B),
+    write("Output: "), lca(A, B), nl.
 
 loop2(X) :- end(X), !.
 loop2(X) :- incs2(X, X1), loop2(X1).
