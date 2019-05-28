@@ -15,12 +15,22 @@ parent(4,6).
 
 
 q2 :-
-    read(X),
+    readln(X),
     loop2(X).
 
-incs2(X, X1) :- X1 is X - 1, write(X1), write("Input: "), read(A), read(B), lca(A, B).
+incs2(X, X1) :- X1 is X - 1, 
+  % write(X1), 
+  readln(A), 
+  % write(A), 
+  first(A, N1), last(A, N2), 
+  % write(N1), write(N2),
+  nl, lca(N1, N2), nl.
 
 loop2(X) :- end(X), !.
 loop2(X) :- incs2(X, X1), loop2(X1).
 
 end(0).
+
+first([H|_],H).
+last([H], H).
+last([_|T], H) :- last(T,H).
