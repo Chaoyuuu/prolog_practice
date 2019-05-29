@@ -5,8 +5,8 @@ is_prime(2).
 is_prime(3).
 is_prime(P) :- integer(P), P > 3, P mod 2 =\= 0, \+ has_factor(P,3).  
 
-next_prime(P,P1) :- P1 is P + 2, is_prime(P1), !.
-next_prime(P,P1) :- P2 is P + 2, next_prime(P2,P1).
+find_p(P,P1) :- P1 is P + 2, is_prime(P1), !.
+find_p(P,P1) :- P2 is P + 2, find_p(P2,P1).
 
 goldbach(4,[2,2]).
 
@@ -21,17 +21,16 @@ if_goldbach(N,[P,Q],P) :-
   Q is N - P,
   is_prime(Q), P < Q ,
   write(P), write(" "), write(Q), nl,
-  next_prime(P,P1),
+  find_p(P,P1),
   if_goldbach(N,L,P1).
   
 if_goldbach(N,L,P) :- P > N/2, nl, !.
 
-if_goldbach(N,L,P) :- 
-  P < N,
-  next_prime(P,P1),
+if_goldbach(N,L,P) :-   
+  find_p(P,P1),
   if_goldbach(N,L,P1).
 
-main :- 
+problem_1 :- 
   read(X), write("Output "), nl, 
   search_goldbach(X, [A, B]).
 
