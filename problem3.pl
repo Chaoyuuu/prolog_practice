@@ -1,31 +1,42 @@
-reach(A, B) :- neighbor(A, B).
-reach(B, A) :- neighbor(A, B).
-reach(A, B) :- neighbor(A, X), reach(X, B).
+if_reach(A, B) :-
+    A == B -> write("Yes"), nl;
+    search(A, B, [])-> write("Yes"), nl;
+    write("NO").  
+    
+search(A, B, L) :-
+    neighbor(A, X),
+    \+memberchk(A, L),
+    (
+    B == X;
+    search(X, B, [A|L])
+    ).
 
-edge(A, B) :-
-    A==B -> write("Yes"); !,
-    reach(A, B) -> write("Yes"); !,
-    neighbor(X,A), edge(X, B). 
+q3 :-
+  readln(X), 
+  last(X, N2),
+  loop(N2).
 
-neighbor(1, 2).
-neighbor(2, 3).
-neighbor(3, 5).
-neighbor(1, 6).
-neighbor(4, 5).
-neighbor(5, 6).
+loop(N) :- 
+    N > 0 ->
+    readln(X), first(X, N1), last(X, N2),
+    add_rule(N1, neighbor, N2),
+    add_rule(N2, neighbor, N1),
+    loop(N-1);
+    nl, 
+    readln([A|_]),
+    loop2(A).
 
-neighbor(7, 10).
-neighbor(10, 9).
-neighbor(8, 9).
-neighbor(8, 7).
+loop2(N) :-
+    N > 0 ->
+    readln(X), first(X, N1), last(X, N2),
+    if_reach(N1, N2),
+    loop2(N -1);
+    nl . 
 
-p3 :-
-    edge(2, 5), nl,
-    edge(6, 3), nl,
-    edge(5, 1), nl,
-    edge(9, 7), nl,
-    edge(10, 10), nl.
+add_rule(X, Predicate, Y) :-
+    Fact =.. [Predicate, X, Y],
+    assertz(Fact).
 
-
-member(X, [X|_]).
-member(X, [_|R]) :- member(X, R).
+first([H|_],H).
+last([H], H).
+last([_|T], H) :- last(T,H).
